@@ -31,4 +31,16 @@
         android:name="com.example.spotify.llista_cansons"
         android:label="fragment_llista_cansons"
         tools:layout="@layout/fragment_llista_cansons" /><action android:id="@+id/action_global_llista_cansons" app:destination="@id/llista_cansons"/>
+    <fragment
+        android:id="@+id/delete_album_custom_dialog"
+        android:name="com.example.spotify.delete_album_custom_dialog"
+        android:label="fragment_delete_album_custom_dialog"
+        tools:layout="@layout/fragment_delete_album_custom_dialog" />
+    <action android:id="@+id/action_global_delete_album_custom_dialog" app:destination="@id/delete_album_custom_dialog" />
+    <fragment
+        android:id="@+id/song_Creation_CustomDialog"
+        android:name="com.example.spotify.Song_Creation_CustomDialog"
+        android:label="fragment_song__creation__custom_dialog"
+        tools:layout="@layout/fragment_song_creation_custom_dialog" />
+    <action android:id="@+id/action_global_song_Creation_CustomDialog" app:destination="@id/song_Creation_CustomDialog" />
 </navigation>

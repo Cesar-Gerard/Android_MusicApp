@@ -3,11 +3,14 @@ package com.example.spotify;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.example.spotify.databinding.FragmentLlistaCansonsBinding;
 import com.example.spotify.databinding.FragmentMyMusicBinding;
@@ -44,11 +47,36 @@ public class llista_cansons extends Fragment {
 
         setUpAlbumInfo();
 
+        setUpAnimations();
+
         setUpRecycleViewCansons();
+
+        setUpFloatingButton();
 
 
 
         return v;
+    }
+
+    private void setUpFloatingButton() {
+
+        b.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Song_Creation_CustomDialog customDialog = new Song_Creation_CustomDialog();
+                customDialog.show(getFragmentManager(), "CustomDialogFragment");
+            }
+        });
+
+    }
+
+    private void setUpAnimations() {
+
+        Animation slideUp = AnimationUtils.loadAnimation(this.getContext(), R.anim.floating_button_anim);
+        b.fab.startAnimation(slideUp);
+
+
+
     }
 
     private void setUpAlbumInfo() {

@@ -15,6 +15,8 @@ public class Album {
     String author;
     Date date;
 
+    boolean selected;
+
 
     List<Song> consons_Album;
 
@@ -100,6 +102,14 @@ public class Album {
         this.consons_Album = consons_Album;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 
     //#endregion
 
@@ -140,11 +150,19 @@ public class Album {
 
 
 
-    public static boolean Album_Realesed(String entrada){
+    public static boolean Album_Realesed(String entrada,Album a){
 
         for(Album n : list_albums){
 
             if(n.getName().equals(entrada)){
+
+                if(a !=null) {
+
+                    int id = getAlbumPosition(a);
+                    if (n.getId() == id) {
+                        return false;
+                    }
+                }
                 return true;
             }
 
@@ -154,6 +172,18 @@ public class Album {
 
 
     }
+
+    public static int getAlbumPosition(Album entrada) {
+        for (int i = 0; i < list_albums.size(); i++) {
+            Album album = list_albums.get(i);
+
+            if (album.getName().equals(entrada.getName())) {
+                return album.getId();
+            }
+        }
+        return -1;
+    }
+
 
 
 

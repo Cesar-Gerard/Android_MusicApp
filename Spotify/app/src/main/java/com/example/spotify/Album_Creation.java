@@ -34,8 +34,11 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
     FragmentAlbumCreationBinding b;
     DatePickerDialog picker;
 
-
     String pathImage;
+
+    public static Album entrada=null;
+
+    private boolean control = false;
 
 
     @Override
@@ -53,14 +56,36 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
         setUpDialogDatePicker();
         setUpImagePicker();
         setUpTextController();
-
         setUpCreationButton();
+
+
+        if(entrada!=null){
+            setUpAlbum();
+        }
 
 
 
 
         return v;
 
+    }
+
+    private void setUpAlbum() {
+
+        b.edtAlbumTitle.setText(entrada.getName());
+        b.edtAuthorName.setText(entrada.getAuthor());
+        b.editText.setText(DateUtils.formatDateToDayMonthYear(entrada.getDate()));
+
+        b.imgPickerReal.setImageBitmap(entrada.getBitmap());
+
+        control = true;
+
+
+    }
+
+
+    public void getAlbum(Album a){
+        entrada = a;
     }
 
 
@@ -71,26 +96,63 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
             @Override
             public void onClick(View view) {
 
+                if (entrada == null) {
 
-                Album nou = new Album(Album.getNewId(),b.edtAlbumTitle.getText().toString(), pathImage, b.edtAuthorName.getText().toString(), DateUtils.parseDayMonthYear(b.editText.getText().toString()));
+                    Album nou = new Album(Album.getNewId(), b.edtAlbumTitle.getText().toString(), pathImage, b.edtAuthorName.getText().toString(), DateUtils.parseDayMonthYear(b.editText.getText().toString()));
 
-                Album.list_albums.add(nou);
+                    Album.list_albums.add(nou);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Album enregistrat amb exit")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                b.edtAlbumTitle.setText("");
-                                b.edtAuthorName.setText("");
-                                b.editText.setText("");
-                                b.imgPickerReal.setImageResource(R.drawable.music_creation);
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Album enregistrat amb exit")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    b.edtAlbumTitle.setText("");
+                                    b.edtAuthorName.setText("");
+                                    b.editText.setText("");
+                                    b.imgPickerReal.setImageResource(R.drawable.music_creation);
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
+                }else{
+
+                    Album.list_albums.get(entrada.getId()).setName(b.edtAlbumTitle.getText().toString());
+                    Album.list_albums.get(entrada.getId()).setAuthor(b.edtAuthorName.getText().toString());
+                    Album.list_albums.get(entrada.getId()).setDate(DateUtils.parseDayMonthYear(b.editText.getText().toString()));
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(pathImage);
+
+                    float scale = Album_Creation.this.getContext().getResources().getDisplayMetrics().density;
+
+                    int widthInPx = (int) (120 * scale);
+                    int heightInPx = (int) (140 * scale);
+
+
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, widthInPx, heightInPx, true);
 
 
 
+                    Album.list_albums.get(entrada.getId()).setBitmap(scaledBitmap);
+
+
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Album actualitzat")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    b.edtAlbumTitle.setText("");
+                                    b.edtAuthorName.setText("");
+                                    b.editText.setText("");
+                                    b.imgPickerReal.setImageResource(R.drawable.music_creation);
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    MyMusic.adapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -98,6 +160,8 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
 
 
     private void setUpTextController() {
+
+
 
         b.edtAlbumTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,13 +173,16 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
+
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!Album.Album_Realesed(b.edtAlbumTitle.getText().toString())){
+
+                if (!Album.Album_Realesed(b.edtAlbumTitle.getText().toString(),entrada)) {
                     verificarYActualizarBoton();
-                }else{
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Nom ja registrat")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {

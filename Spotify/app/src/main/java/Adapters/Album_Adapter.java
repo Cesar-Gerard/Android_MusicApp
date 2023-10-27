@@ -3,22 +3,23 @@ package Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spotify.MyMusic;
 import com.example.spotify.R;
 import com.example.spotify.llista_cansons;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
 import java.util.List;
 
 import model.Album;
@@ -27,10 +28,15 @@ import model.DateUtils;
 public class Album_Adapter extends RecyclerView.Adapter<Album_Adapter.ViewHolder>{
 
     private List<Album> albums;
-    Context context;
+    MyMusic context;
 
 
-    public Album_Adapter(List<Album> albums,Context a) {
+
+
+
+
+
+    public Album_Adapter(List<Album> albums,MyMusic a) {
         this.albums = albums;
         context=a;
     }
@@ -102,6 +108,20 @@ public class Album_Adapter extends RecyclerView.Adapter<Album_Adapter.ViewHolder
         }
 
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                a.setSelected(true);
+                ((AppCompatActivity)context.getContext()).startSupportActionMode(context.actionModeCallback);
+
+                return true;
+            }
+
+        });
+
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +137,11 @@ public class Album_Adapter extends RecyclerView.Adapter<Album_Adapter.ViewHolder
 
 
 
+
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -142,4 +166,9 @@ public class Album_Adapter extends RecyclerView.Adapter<Album_Adapter.ViewHolder
 
         }
     }
+
+
+
+
+
 }
