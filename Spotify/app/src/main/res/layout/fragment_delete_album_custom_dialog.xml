@@ -5,15 +5,14 @@ android:layout_height="match_parent"
 android:layout_gravity="center"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-tools:context=".delete_album_custom_dialog">
+tools:context=".dialogs.delete_album_custom_dialog">
 
 
 <androidx.cardview.widget.CardView
     android:id="@+id/cardView2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/pink"
-    app:cardCornerRadius="10dp"
+    android:backgroundTint="@color/brown"
     app:cardElevation="40dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

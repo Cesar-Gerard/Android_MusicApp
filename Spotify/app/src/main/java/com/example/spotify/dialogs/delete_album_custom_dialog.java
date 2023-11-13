@@ -1,25 +1,29 @@
-package com.example.spotify;
+package com.example.spotify.dialogs;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.spotify.databinding.FragmentCustomDialogImagePickerBinding;
+import com.example.spotify.Albums.MyMusic;
 import com.example.spotify.databinding.FragmentDeleteAlbumCustomDialogBinding;
-
-import model.Album;
+import com.example.spotify.Songs.llista_cansons;
 
 
 public class delete_album_custom_dialog extends DialogFragment {
     
     
     FragmentDeleteAlbumCustomDialogBinding b;
-    
+
+    Object entrada;
+
+    public delete_album_custom_dialog(Object o) {
+        entrada = o;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,10 @@ public class delete_album_custom_dialog extends DialogFragment {
         b = FragmentDeleteAlbumCustomDialogBinding.inflate(getLayoutInflater());
         View v = b.getRoot();
 
-        
+        if(entrada instanceof llista_cansons){
+            b.textView.setText("Segur que vols eliminar la canço seleccionada?");
+        }
+
         setUpButtons();
         
 
@@ -46,9 +53,16 @@ public class delete_album_custom_dialog extends DialogFragment {
         b.btnSi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyMusic.deleteSelectedItems();
+
+                if(entrada instanceof MyMusic){
+                    MyMusic.deleteSelectedItems();
+                }else if(entrada instanceof  llista_cansons){
+                    llista_cansons.deleteSelectedItems();
+                    llista_cansons.cardAvisEnabled();
+                }
 
                 delete_album_custom_dialog.this.dismiss();
+
             }
         });
 

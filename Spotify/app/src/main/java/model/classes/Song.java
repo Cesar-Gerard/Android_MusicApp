@@ -1,9 +1,11 @@
-package model;
+package model.classes;
 
 public class Song {
 
     int id;
     boolean like;
+
+    boolean selected;
 
     String name;
 
@@ -48,6 +50,14 @@ public class Song {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     //#endregion

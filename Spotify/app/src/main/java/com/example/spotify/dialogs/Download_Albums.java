@@ -1,4 +1,4 @@
-package com.example.spotify;
+package com.example.spotify.dialogs;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.spotify.R;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -9,16 +9,6 @@
     android:background="@drawable/llista_casons_background">
 
 
-    <ImageView
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:id="@+id/menu_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        android:src="@drawable/menu"/>
-
-
 
 
 
@@ -33,7 +23,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -129,20 +119,21 @@
 
 
         <androidx.cardview.widget.CardView
-            android:layout_width="281dp"
             android:id="@+id/cardAvis"
-            android:backgroundTint="@color/lavender"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/lavender"
+            android:visibility="invisible"
             app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"
-            >
+            app:layout_constraintTop_toTopOf="@+id/cardView4">
+
+
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="No hi han caçons en aquest album, afegeix unes quantes."

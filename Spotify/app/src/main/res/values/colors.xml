@@ -5,4 +5,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#fb93dc</color>
     <color name="customTransparent">#00FFFFFF</color>
+    <color name="brown">#E6BA93</color>
 </resources>

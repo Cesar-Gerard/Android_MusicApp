@@ -1,4 +1,4 @@
-package com.example.spotify;
+package com.example.spotify.dialogs;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.spotify.R;
 import com.example.spotify.databinding.FragmentCustomDialogImagePickerBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -109,6 +110,8 @@ public class Custom_Dialog_Image_Picker extends DialogFragment {
             // Actualiza la imagen del ImageButton con la imagen seleccionada
             imageSelectedListener.onImageSelected(imageUri);
 
+            this.dismiss();
+
 
         }else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -125,10 +128,10 @@ public class Custom_Dialog_Image_Picker extends DialogFragment {
             imageSelectedListener.onImageSelected(Uri.parse(path));
 
 
-
+            this.dismiss();
         }
 
-        this.dismiss();
+
 
     }
 

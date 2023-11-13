@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
     android:layout_height="match_parent"
     android:background="@drawable/background_image"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,28 +20,24 @@
     <ImageView
         android:layout_width="173dp"
         android:layout_height="79dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="75dp"
         android:scaleType="fitXY"
         android:src="@drawable/logomymusic_v2" />
 
 
 
 
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_marginTop="70dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcyAlbums"
             android:layout_margin="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="580dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:elevation="6dp"
             app:shapeAppearanceOverlay="@style/roundedFAB"
-        />
+            />
 
 
 

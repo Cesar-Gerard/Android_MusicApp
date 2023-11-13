@@ -1,9 +1,11 @@
-package model;
+package model.classes;
 
 import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import model.formatters.DateUtils;
 
 public class Album {
 
@@ -17,11 +19,11 @@ public class Album {
 
     boolean selected;
 
-
-    List<Song> consons_Album;
-
+     List<Song> consons_Album;
 
     public static List<Album> list_albums=null;
+
+    //#region Constuctors
 
     public Album(int id, String name, String imageUrl, String author, Date date) {
         this.id = id;
@@ -29,16 +31,18 @@ public class Album {
         ImageUrl = imageUrl;
         this.author = author;
         this.date = date;
+        this.consons_Album= new ArrayList<>();
     }
 
-    public Album(int id, String name, String imageUrl, String author, Date date, List<Song> consons_Album) {
+    public Album(int id, String name, Bitmap bitmap, String author, Date date) {
         this.id = id;
         this.name = name;
-        ImageUrl = imageUrl;
+        this.bitmap = bitmap;
         this.author = author;
         this.date = date;
-        this.consons_Album = consons_Album;
+        this.consons_Album= new ArrayList<>();
     }
+    //#endregion
 
     //#region Getters i Setters
 
@@ -113,15 +117,16 @@ public class Album {
 
     //#endregion
 
+    //#region Metodes
 
 
-
+    //Creació dels albums predeterminats de la app
     public static List<Album> createList(){
 
         if(list_albums==null){
 
             list_albums = new ArrayList<>();
-            list_albums.add(new Album(0,"21", "https://i1.sndcdn.com/artworks-000168814903-4vrfjc-t500x500.jpg","Adele",DateUtils.parseDayMonthYear("21/07/2003")));
+            list_albums.add(new Album(0,"21", "https://i1.sndcdn.com/artworks-000168814903-4vrfjc-t500x500.jpg","Adele", DateUtils.parseDayMonthYear("21/07/2003")));
             list_albums.add(new Album(1,"Greatest Hits", "https://i1.sndcdn.com/artworks-0594d6b29566c9686580e8d3560d253d1bc868d3-0-t500x500.jpg","Queen",DateUtils.parseDayMonthYear("08/09/2014")));
             list_albums.add(new Album(2,"Dancing Queen", "https://i1.sndcdn.com/artworks-HklzvIa2mO1dlBcF-OXKJqw-t500x500.jpg","ABBA",DateUtils.parseDayMonthYear("21/07/2003")));
             list_albums.add(new Album(3,"Coinicidir", "https://i1.sndcdn.com/artworks-suT8zKas8erE-0-t500x500.jpg","Macaco",DateUtils.parseDayMonthYear("21/07/2003")));
@@ -138,6 +143,7 @@ public class Album {
     }
 
 
+    //Retorna un nou id per la creació de un album
     public static int getNewId(){
 
         Album last = list_albums.get(list_albums.size()-1);
@@ -147,9 +153,54 @@ public class Album {
     }
 
 
+    //Retorna un nou id per la creació de una canço
+    public  int getNewSongId(){
+        if(this.consons_Album.size()>0) {
+
+            Song last = this.consons_Album.get(consons_Album.size() - 1);
+
+            return last.getId() + 1;
+        }else{
+            return 0;
+        }
+    }
+
+    //Afegeix la cançon seleccionada al album seleccionat
+    public static void addNewSong(Song entrada,Album a){
+
+           list_albums.get(a.getId()).getConsons_Album().add(entrada);
 
 
+    }
 
+
+    //Comprova si la canço existeix o no
+    public static boolean songInAlbumRealesed(String entrada,Album a, Song original){
+        if(a.consons_Album.size()>0){
+            for(Song n : a.consons_Album){
+                if(n.getName().equals(entrada)){
+
+                        int id = getSongPosition(original,a);
+                        if (n.getId() == id) {
+                            return false;
+                        }else{
+                            return true;
+                        }
+
+
+                }
+            }
+
+            return false;
+        }else{
+            return false;
+        }
+
+
+    }
+
+
+    //Comprova si el album existeix o no
     public static boolean Album_Realesed(String entrada,Album a){
 
         for(Album n : list_albums){
@@ -173,6 +224,7 @@ public class Album {
 
     }
 
+    //Retorna la posicio del album que coincideixi amb el nom del album passat per parametre
     public static int getAlbumPosition(Album entrada) {
         for (int i = 0; i < list_albums.size(); i++) {
             Album album = list_albums.get(i);
@@ -184,6 +236,25 @@ public class Album {
         return -1;
     }
 
+
+    //Retorna la posicio de la canço que coincideixi amb el nom de la canço passada per parametre
+    public static int getSongPosition(Song entrada,Album a) {
+        if(entrada != null) {
+
+            for (int i = 0; i <  a.getConsons_Album().size(); i++) {
+                Song song = a.getConsons_Album().get(i);
+
+                if (song.getName().equals(entrada.getName())) {
+                    return song.getId();
+                }
+            }
+            return -1;
+        }else{
+            return -1;
+        }
+    }
+
+    //#endregion
 
 
 

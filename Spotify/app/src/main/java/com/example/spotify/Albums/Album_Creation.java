@@ -1,4 +1,4 @@
-package com.example.spotify;
+package com.example.spotify.Albums;
 
 
 import android.app.AlertDialog;
@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,7 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.example.spotify.R;
 import com.example.spotify.databinding.FragmentAlbumCreationBinding;
+import com.example.spotify.dialogs.Custom_Dialog_Image_Picker;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,8 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 
-import model.Album;
-import model.DateUtils;
+import model.classes.Album;
+import model.formatters.DateUtils;
 
 public class Album_Creation extends Fragment implements Custom_Dialog_Image_Picker.OnImageSelectedListener {
 
@@ -35,6 +39,9 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
     DatePickerDialog picker;
 
     String pathImage;
+
+    private Handler handler = new Handler();
+    private Runnable inputFinishChecker;
 
     public static Album entrada=null;
 
@@ -83,13 +90,6 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
 
     }
 
-
-    public void getAlbum(Album a){
-        entrada = a;
-    }
-
-
-
     private void setUpCreationButton() {
 
         b.fab.setOnClickListener(new View.OnClickListener() {
@@ -97,8 +97,16 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
             public void onClick(View view) {
 
                 if (entrada == null) {
+                    Bitmap bitmap=null;
 
-                    Album nou = new Album(Album.getNewId(), b.edtAlbumTitle.getText().toString(), pathImage, b.edtAuthorName.getText().toString(), DateUtils.parseDayMonthYear(b.editText.getText().toString()));
+                    if(pathImage!=null) {
+                        File file = new File(pathImage);
+                        bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    }else{
+                        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.music_creation);
+                    }
+
+                    Album nou = new Album(Album.getNewId(), b.edtAlbumTitle.getText().toString(), bitmap, b.edtAuthorName.getText().toString(), DateUtils.parseDayMonthYear(b.editText.getText().toString()));
 
                     Album.list_albums.add(nou);
 
@@ -116,7 +124,11 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
                     dialog.show();
 
 
+                    MyMusic.adapter.notifyDataSetChanged();
+
+
                 }else{
+
 
                     Album.list_albums.get(entrada.getId()).setName(b.edtAlbumTitle.getText().toString());
                     Album.list_albums.get(entrada.getId()).setAuthor(b.edtAuthorName.getText().toString());
@@ -129,12 +141,13 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
                     int widthInPx = (int) (120 * scale);
                     int heightInPx = (int) (140 * scale);
 
+                    if(bitmap!=null){
+                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, widthInPx, heightInPx, true);
+                        Album.list_albums.get(entrada.getId()).setBitmap(scaledBitmap);
+                    }
 
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, widthInPx, heightInPx, true);
+                    Album.list_albums.get(entrada.getId()).setSelected(false);
 
-
-
-                    Album.list_albums.get(entrada.getId()).setBitmap(scaledBitmap);
 
 
 
@@ -151,7 +164,15 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
+                    entrada=null;
+
                     MyMusic.adapter.notifyDataSetChanged();
+
+
+                    getActivity().getSupportFragmentManager().popBackStack();
+
+
+
                 }
             }
         });
@@ -180,20 +201,34 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if (!Album.Album_Realesed(b.edtAlbumTitle.getText().toString(),entrada)) {
-                    verificarYActualizarBoton();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("Nom ja registrat")
-                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    b.edtAlbumTitle.setText("");
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                handler.removeCallbacks(inputFinishChecker);
 
-                }
+                inputFinishChecker = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Verifica el texto después del retraso
+                        if (!Album.Album_Realesed(b.edtAlbumTitle.getText().toString(),entrada)) {
+                            verificarYActualizarBoton();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setMessage("Nom ja registrat")
+                                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            b.edtAlbumTitle.setText("");
+                                        }
+                                    });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+
+                        }
+                    }
+                };
+
+                // Inicia el temporizador después de 1000 ms (1 segundo)
+                handler.postDelayed(inputFinishChecker, 400);
+
+
+
 
             }
         });

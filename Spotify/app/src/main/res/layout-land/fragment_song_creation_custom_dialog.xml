@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/pink"
-    android:backgroundTint="@color/pink"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     tools:context=".dialogs.Song_Creation_CustomDialog">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -23,8 +24,8 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/customTransparent"
             android:padding="10dp">
 
@@ -42,7 +43,7 @@
 
             <View
                 android:id="@+id/view5"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="30dp"
                 android:background="#71D575"
@@ -52,12 +53,11 @@
 
 
             <NumberPicker
-                android:layout_marginEnd="20dp"
                 android:id="@+id/pickerid"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toStartOf="@+id/edtNameSong"
+                android:layout_marginEnd="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view5" />
 
@@ -65,65 +65,64 @@
                 android:id="@+id/edtNameSong"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="40dp"
                 android:hint="Nom de la canço"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/pickerid"
                 app:layout_constraintTop_toBottomOf="@+id/view5" />
 
 
             <NumberPicker
+                android:layout_marginStart="100dp"
                 android:id="@+id/numberPickerMinutos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_marginEnd="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edtNameSong" />
+                app:layout_constraintTop_toBottomOf="@+id/view5" />
 
             <NumberPicker
                 android:id="@+id/numberPickerSegundos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="80dp"
+                android:layout_marginEnd="200dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/numberPickerMinutos"
-                app:layout_constraintTop_toBottomOf="@+id/edtNameSong" />
+                app:layout_constraintTop_toBottomOf="@+id/view5" />
 
 
             <View
                 android:id="@+id/view6"
-                android:layout_width="350dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
                 android:background="#71D575"
+                android:layout_marginEnd="100dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/numberPickerMinutos" />
+                app:layout_constraintStart_toEndOf="@+id/numberPickerSegundos"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <Button
                 android:id="@+id/btnCancel"
+                android:layout_marginTop="40dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="100dp"
                 android:text="Cancel"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view6" />
+                app:layout_constraintStart_toEndOf="@+id/view6"
+                app:layout_constraintTop_toTopOf="@+id/numberPickerSegundos" />
 
 
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Save"
                 android:enabled="false"
-                app:layout_constraintStart_toEndOf="@+id/btnCancel"
-                app:layout_constraintTop_toTopOf="@+id/btnCancel" />
+                android:text="Save"
+                app:layout_constraintEnd_toEndOf="@+id/btnCancel"
+                app:layout_constraintStart_toStartOf="@+id/btnCancel"
+                app:layout_constraintTop_toBottomOf="@+id/btnCancel" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -132,4 +131,6 @@
     </androidx.cardview.widget.CardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>
