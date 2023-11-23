@@ -4,12 +4,15 @@ package com.example.spotify.Albums;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.text.Editable;
@@ -20,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 
 import com.example.spotify.R;
+import com.example.spotify.Songs.llista_cansons;
 import com.example.spotify.databinding.FragmentAlbumCreationBinding;
 import com.example.spotify.dialogs.Custom_Dialog_Image_Picker;
 
@@ -37,6 +41,8 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
 
     FragmentAlbumCreationBinding b;
     DatePickerDialog picker;
+
+    Custom_Dialog_Image_Picker customDialog;
 
     String pathImage;
 
@@ -66,14 +72,34 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
         setUpCreationButton();
 
 
+
+
+
+
+
         if(entrada!=null){
             setUpAlbum();
+        }else{
+            netejarcamps();
         }
 
 
 
 
         return v;
+
+    }
+
+
+
+    private void netejarcamps() {
+
+        b.edtAlbumTitle.setText("");
+        b.edtAuthorName.setText("");
+        setUpDialogDatePicker();
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.music_creation);
+        b.imgPickerReal.setImageBitmap(bitmap);
 
     }
 
@@ -129,10 +155,13 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
 
                 }else{
 
+                    int posicio = Album.list_albums.indexOf(entrada);
 
-                    Album.list_albums.get(entrada.getId()).setName(b.edtAlbumTitle.getText().toString());
-                    Album.list_albums.get(entrada.getId()).setAuthor(b.edtAuthorName.getText().toString());
-                    Album.list_albums.get(entrada.getId()).setDate(DateUtils.parseDayMonthYear(b.editText.getText().toString()));
+
+
+                    Album.list_albums.get(posicio).setName(b.edtAlbumTitle.getText().toString());
+                    Album.list_albums.get(posicio).setAuthor(b.edtAuthorName.getText().toString());
+                    Album.list_albums.get(posicio).setDate(DateUtils.parseDayMonthYear(b.editText.getText().toString()));
 
                     Bitmap bitmap = BitmapFactory.decodeFile(pathImage);
 
@@ -143,10 +172,10 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
 
                     if(bitmap!=null){
                         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, widthInPx, heightInPx, true);
-                        Album.list_albums.get(entrada.getId()).setBitmap(scaledBitmap);
+                        Album.list_albums.get(posicio).setBitmap(scaledBitmap);
                     }
 
-                    Album.list_albums.get(entrada.getId()).setSelected(false);
+                    Album.list_albums.get(posicio).setSelected(false);
 
 
 
@@ -164,18 +193,38 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
-                    entrada=null;
+
 
                     MyMusic.adapter.notifyDataSetChanged();
 
+                    //Netegem el path de la imatge per tenir en compte de que es pot no posar imatge
+                    pathImage=null;
 
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE && llista_cansons.entrada!=null){
 
+                        llista_cansons.setUpAlbumInfo();
+
+                        Navigation.findNavController(Album_Creation.this.getActivity(),R.id.nav_host_fragment).navigate(R.id.action_global_myMusic);
+
+                    }
 
 
                 }
+
+
+
+                getActivity().getSupportFragmentManager().popBackStack();
+
+
+
             }
+
+
+
+
         });
+
+
 
     }
 
@@ -275,7 +324,7 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
             @Override
             public void onClick(View v) {
 
-                Custom_Dialog_Image_Picker customDialog = new Custom_Dialog_Image_Picker();
+                 customDialog = new Custom_Dialog_Image_Picker();
 
                 customDialog.show(getFragmentManager(), "CustomDialogFragment");
 
@@ -283,7 +332,7 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
                 customDialog.setOnImageSelectedListener(new Custom_Dialog_Image_Picker.OnImageSelectedListener() {
                     @Override
                     public void onImageSelected(Uri selectedImageUri) {
-                        // Actualiza el ImageButton con la imagen seleccionada
+                        // Actualitzar el amb la imatge seleccionada
 
                         File folder = getContext().getFilesDir();
                         File arxiu = new File(folder, "nom"+MyMusic.imagenumber+".png");
@@ -364,5 +413,19 @@ public class Album_Creation extends Fragment implements Custom_Dialog_Image_Pick
         boolean habilitarBoton = !texto1.isEmpty() && !texto2.isEmpty() && !texto3.isEmpty();
         b.fab.setEnabled(habilitarBoton);
     }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        entrada=null;
+
+    }
+
+
+
+
+
 
 }

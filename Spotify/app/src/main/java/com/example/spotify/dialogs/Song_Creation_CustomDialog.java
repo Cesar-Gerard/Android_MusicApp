@@ -212,6 +212,8 @@ public class Song_Creation_CustomDialog extends DialogFragment {
                     llista_cansons.cardAvisEnabled();
                 }else{
 
+
+
                     llista_cansons.entrada.getConsons_Album().get(canso.getId()).setName(b.edtNameSong.getText().toString());
                     llista_cansons.entrada.getConsons_Album().get(canso.getId()).setSelected(false);
 
@@ -258,14 +260,16 @@ public class Song_Creation_CustomDialog extends DialogFragment {
 
     private void actualitzarllistaAlbums(Album entrada) {
 
-        Album.list_albums.get(entrada.getId()).setConsons_Album(entrada.getConsons_Album());
-        Album.list_albums.get(entrada.getId()).setBitmap(entrada.getBitmap());
-        Album.list_albums.get(entrada.getId()).setId(entrada.getId());
-        Album.list_albums.get(entrada.getId()).setName(entrada.getName());
-        Album.list_albums.get(entrada.getId()).setAuthor(entrada.getAuthor());
-        Album.list_albums.get(entrada.getId()).setDate(entrada.getDate());
-        Album.list_albums.get(entrada.getId()).setImageUrl(entrada.getImageUrl());
-        Album.list_albums.get(entrada.getId()).setSelected(entrada.isSelected());
+        int posicio = Album.list_albums.indexOf(entrada);
+
+        Album.list_albums.get(posicio).setConsons_Album(entrada.getConsons_Album());
+        Album.list_albums.get(posicio).setBitmap(entrada.getBitmap());
+        Album.list_albums.get(posicio).setId(entrada.getId());
+        Album.list_albums.get(posicio).setName(entrada.getName());
+        Album.list_albums.get(posicio).setAuthor(entrada.getAuthor());
+        Album.list_albums.get(posicio).setDate(entrada.getDate());
+        Album.list_albums.get(posicio).setImageUrl(entrada.getImageUrl());
+        Album.list_albums.get(posicio).setSelected(entrada.isSelected());
 
 
 

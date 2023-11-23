@@ -42,6 +42,10 @@ public class Album {
         this.date = date;
         this.consons_Album= new ArrayList<>();
     }
+
+    public Album() {
+
+    }
     //#endregion
 
     //#region Getters i Setters
@@ -168,7 +172,9 @@ public class Album {
     //Afegeix la cançon seleccionada al album seleccionat
     public static void addNewSong(Song entrada,Album a){
 
-           list_albums.get(a.getId()).getConsons_Album().add(entrada);
+        int posicio = Album.list_albums.indexOf(a);
+
+           list_albums.get(posicio).getConsons_Album().add(entrada);
 
 
     }

@@ -22,6 +22,7 @@ public  class MainActivity extends AppCompatActivity implements NavigationView.O
     NavigationView navigationview;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public  class MainActivity extends AppCompatActivity implements NavigationView.O
         if(item.getItemId()==R.id.nav_MyMusic){
             Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_myMusic);
         }else if(item.getItemId()==R.id.nav_Download){
-            Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_download_Albums);
+           //Estem treballant en aquesta funció //Navigation.findNavController(this,R.id.nav_host_fragment).navigate(R.id.action_global_download_Albums);
         } else if(item.getItemId()==R.id.nav_logout){
             finishAffinity();
         }

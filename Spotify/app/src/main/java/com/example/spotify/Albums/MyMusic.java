@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -145,6 +147,8 @@ public class MyMusic extends Fragment implements AlbumClickerListener{
 
                 adapter.notifyDataSetChanged();
             }
+
+
         };
 
 

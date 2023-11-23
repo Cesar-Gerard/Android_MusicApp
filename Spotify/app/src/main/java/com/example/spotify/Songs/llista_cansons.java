@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,8 +23,10 @@ import android.view.animation.AnimationUtils;
 
 import com.example.spotify.Albums.Album_Creation;
 import com.example.spotify.Albums.MyMusic;
+import com.example.spotify.MainActivity;
 import com.example.spotify.R;
 import com.example.spotify.databinding.FragmentLlistaCansonsBinding;
+import com.example.spotify.dialogs.Custom_Dialog_Image_Picker;
 import com.example.spotify.dialogs.Song_Creation_CustomDialog;
 import com.example.spotify.dialogs.delete_album_custom_dialog;
 
@@ -66,6 +69,7 @@ public class llista_cansons extends Fragment  {
             dialog.dismiss();
         }
 
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         Fragment fragmentoActual = fragmentManager.findFragmentById(R.id.nav_host_fragment);
         Fragment fill = fragmentoActual.getChildFragmentManager().getPrimaryNavigationFragment();
@@ -76,6 +80,7 @@ public class llista_cansons extends Fragment  {
 
             Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.action_global_myMusic);
         }
+
 
 
 
@@ -202,7 +207,10 @@ public class llista_cansons extends Fragment  {
             entrada.getConsons_Album().get(i).setId(j.getId()-1);
         }
 
-        Album.list_albums.get(entrada.getId()).setConsons_Album(entrada.getConsons_Album());
+        int p = Album.list_albums.indexOf(entrada);
+
+
+        Album.list_albums.get(p).setConsons_Album(entrada.getConsons_Album());
         viewModel.setLlista(Album.list_albums);
 
         adapter.notifyDataSetChanged();
@@ -248,7 +256,7 @@ public class llista_cansons extends Fragment  {
 
 
     //Presentació de les dades del album
-    private void setUpAlbumInfo() {
+    public static void setUpAlbumInfo() {
         b.txvNameArtist.setText(entrada.getAuthor().toString());
 
         b.txvAlbumName.setText(entrada.getName().toString());
