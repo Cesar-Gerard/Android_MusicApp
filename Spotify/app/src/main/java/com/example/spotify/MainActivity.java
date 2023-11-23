@@ -4,18 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.spotify.Albums.MyMusic;
-import com.example.spotify.Songs.llista_cansons;
 import com.example.spotify.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 import model.classes.Album;
@@ -52,7 +46,7 @@ public  class MainActivity extends AppCompatActivity implements NavigationView.O
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-         navigationview = findViewById(R.id.nav_view);
+        navigationview = findViewById(R.id.nav_view);
         navigationview.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, b.drawerLayout, toolbar, R.string.open_nav,R.string.close_nav);

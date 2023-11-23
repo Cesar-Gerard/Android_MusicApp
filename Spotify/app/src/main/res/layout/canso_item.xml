@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/txvNameSong"
         android:layout_marginStart="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:hint="New Song"
         android:textColor="@color/black"
